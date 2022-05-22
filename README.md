@@ -1,6 +1,6 @@
 # Time series pipeline workflow manager
 <p align="center">
-  <img width="600" height="350" src="https://github.com/sleep3r/neurograph/raw/master/images/NeuroGraph.jpg">
+  <img width="600" height="350" src="https://i.ibb.co/qnpj44v/2022-05-22-19-53-48.png">
 </p>
 
 <h3>To run an example:</h3>
