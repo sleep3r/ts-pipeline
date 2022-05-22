@@ -1,0 +1,4 @@
+Flask==2.1.0
+pika==1.1.0
+requests==2.22.0
+readerwriterlock==1.0.9

@@ -1,0 +1,110 @@
+version: "2.1"
+services:
+    web_app:
+        container_name: "web_app"
+        build:
+            context: "./"
+            dockerfile: "./utils/dockerfiles/app.dockerfile"
+        depends_on:
+          global_rmq:
+            condition: service_healthy
+        networks:
+          - pipeline-network
+        mem_limit: 100m
+        logging:
+          options:
+            max-size: 10m
+        restart: always
+        ports:
+          - "9005:8090"
+        env_file:
+          - docker-compose.env
+
+    global_rmq:
+        container_name: "global_rmq"
+        build:
+            context: "./"
+            dockerfile: "./utils/dockerfiles/rmq.dockerfile"
+        ports:
+            - "9001:15672"
+            - "9002:5672"
+        networks:
+            - pipeline-network
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://global_rmq:15672"]
+            interval: 1s
+            timeout: 1s
+            retries: 30
+        mem_limit: 500m
+        logging:
+            options:
+                max-size: 10m
+
+    pipeline_local_rmq:
+        container_name: "pipeline_rmq"
+        build:
+            context: "./"
+            dockerfile: "./utils/dockerfiles/rmq.dockerfile"
+        ports:
+            - "9003:15672"
+            - "9004:5672"
+        networks:
+            - pipeline-network
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://pipeline_rmq:15672"]
+            interval: 1s
+            timeout: 1s
+            retries: 30
+        mem_limit: 500m
+        logging:
+            options:
+                max-size: 10m
+
+    initiator:
+        container_name: "initiator"
+        build:
+            context: "./"
+            dockerfile: "./dockerfiles/node.dockerfile"
+        networks:
+            - pipeline-network
+        depends_on:
+            pipeline_local_rmq:
+                condition: service_healthy
+        volumes:
+            - ./state/pipeline/:/app/state/
+        env_file:
+            - local.env
+        environment:
+            - SERVICE_NAME=initiator
+        mem_limit: 100m
+        logging:
+            options:
+                max-size: 10m
+
+
+    node_1:
+        container_name: "node_1"
+        build:
+            context: "./"
+            dockerfile: "./dockerfiles/node.dockerfile"
+        networks:
+            - pipeline-network
+        depends_on:
+            pipeline_local_rmq:
+                condition: service_healthy
+        volumes:
+            - ./state/pipeline/:/app/state/
+        env_file:
+            - local.env
+        environment:
+            - SERVICE_NAME=node_1
+        mem_limit: 100m
+        logging:
+            options:
+                max-size: 10m
+
+
+networks:
+    pipeline-network:
+        driver: bridge
+        name: pipeline-network

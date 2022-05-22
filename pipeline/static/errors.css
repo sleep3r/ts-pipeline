@@ -1,0 +1,21 @@
+.error-section {
+    background: #EEEEEE;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+}
+
+.sender {
+    display: block;
+}
+
+.error-text-area-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.error-text-area {
+    display: inline-block;
+    width: 50%;
+    margin: 0 2px;
+}

@@ -1,0 +1,24 @@
+{
+  "ts_pipeline": {
+    "rabbitmq_url": null,
+    "jenkins_url": null,
+    "services": {
+      "initiator": {
+        "predecessors": [],
+        "supported_commands": [
+          "set_delay",
+          "set_message",
+          "trigger"
+        ],
+        "input_queue": ""
+      },
+      "node_1": {
+        "predecessors": [
+          "initiator"
+        ],
+        "supported_commands": [],
+        "input_queue": "init_queue"
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/service_monitor.css"/>
+    <meta charset="UTF-8">
+    <title>Service Check</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='service_monitor.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='d3.v5.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dagre-d3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='toastr.min.js') }}"></script>
+
+</head>
+<body class="smooth-enable-scroll">
+<ul id="pipelines-list" class="pipelines-list smooth-blur-out"></ul>
+
+<div id="service-popup-background" class="service-popup-background smooth-fade-out" onclick="hide_popup()"></div>
+<div class="service-popup-container">
+    <div id="service-popup" class="service-popup smooth-fade-out">
+        <div class="title-section"><h4 id="service-popup-title" class="title"></h4></div>
+        <div class="controls-section">
+            <div class="controls-row" id="last-received-message-time-row">
+                <p class="name">Last received message time</p>
+                <p id="last-received-message-time"></p>
+            </div>
+            <div class="controls-row" id="last-sent-message-time-row">
+                <p class="name">Last sent message time</p>
+                <p id="last-sent-message-time"></p>
+            </div>
+            <div class="controls-row">
+                <p class="name">Kibana logs</p>
+                <a target="_blank" id="kibana-link">Browse all logs</a>
+            </div>
+            <div class="controls-row">
+                <p class="name">Jenkins</p>
+                <a target="_blank" id="jenkins-link">Open in Jenkins</a>
+            </div>
+            <div class="controls-row">
+                <p class="name">Send predefined command</p>
+                <button id="suspend-command-button" class="command-button" onclick="send_command(false, 'suspend')">Suspend</button>
+                <button id="resume-command-button" class="command-button" onclick="send_command(false, 'resume')">Resume</button>
+                <button id="shutdown-command-button" class="shutdown-button command-button" onclick="send_command(true, 'shutdown')">Shutdown</button>
+            </div>
+            <hr/>
+            <div class="controls-row">
+                <p class="name">Send custom command</p>
+                <div class="custom-command-section">
+                    <datalist id="custom-commands-list"></datalist>
+                    <input type="text" placeholder="Enter command" id="custom-command-name-textarea" class="command-name-input" list="custom-commands-list">
+                    <textarea placeholder="Enter arguments on different rows" id="custom-command-args-textarea" class="command-args-textarea" rows="3"></textarea>
+                    <button id="custom-command-args-button" class="command-button" onclick="send_custom_command()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='service_monitor.js') }}"></script>
+</body>
+</html>

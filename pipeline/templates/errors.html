@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Errors</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='errors.css') }}">
+</head>
+<body>
+<label>
+    {% for error in errors %}
+        <div class="error-section">
+            <span class="sender">{{ error[0] }}</span>
+            <div class="error-text-area-wrapper">
+                <textarea class="error-text-area" rows="{{ [20, error[1].split('\n')|length]|min }}">{{ error[1] }}</textarea>
+                <textarea class="error-text-area" rows="{{ [20, error[1].split('\n')|length]|min }}">{{ error[2] }}</textarea>
+            </div>
+        </div>
+    {% endfor %}
+</label>
+</body>
+</html>
