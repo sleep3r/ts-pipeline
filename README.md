@@ -1,6 +1,4 @@
-# python-neurograph
-Neurograph modeling framework.
-
+# Time series pipeline workflow manager
 <p align="center">
   <img width="600" height="350" src="https://github.com/sleep3r/neurograph/raw/master/images/NeuroGraph.jpg">
 </p>
@@ -11,7 +9,7 @@ You need to be Docker and docker-compose installed on your system.
 <br>
 
 ```
-cd /neurograph
+cd /pipeline
 docker-compose build
 docker-compose up
 ```
